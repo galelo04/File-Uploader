@@ -49,3 +49,10 @@ model Folder {
   parent          Folder?  @relation("FolderToFolder", fields: [parentId], references: [id])
   childrenFolders Folder[] @relation("FolderToFolder")
 }
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String // MediumText may be needed for MySql
+  expiresAt DateTime
+}
