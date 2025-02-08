@@ -30,6 +30,7 @@ model File {
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  size      Int
   Owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   String
   parent    Folder?  @relation("FileToFolder", fields: [parentId], references: [id])

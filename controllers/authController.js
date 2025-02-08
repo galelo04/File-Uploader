@@ -14,4 +14,25 @@ const registerPOST = async (req, res) => {
   }
 };
 
-module.exports = { registerGET, registerPOST };
+const loginGET = (req, res) => {
+  res.render('login', { title: 'Login' });
+};
+
+const loginPOST = (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/auth/login',
+    failureFlash: true,
+  })(req, res, next);
+};
+
+const logout = (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+};
+
+module.exports = { registerGET, registerPOST, loginGET, loginPOST, logout };

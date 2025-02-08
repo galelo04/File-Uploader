@@ -33,6 +33,11 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 require('./config/passport');
 
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');

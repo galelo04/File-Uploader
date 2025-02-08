@@ -5,7 +5,7 @@ const indexRouter = Router();
 indexRouter.use('/auth', authRouter);
 
 indexRouter.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.render('home', { title: 'Home' });
 });
 
 module.exports = indexRouter;
