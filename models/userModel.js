@@ -23,6 +23,11 @@ const registerUser = async (name, email, password) => {
       name: name,
       email: email,
       password: hashedPassword,
+      folders: {
+        create: {
+          name: 'root',
+        },
+      },
     },
   });
 };

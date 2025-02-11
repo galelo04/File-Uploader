@@ -8,12 +8,15 @@
   <body>
     <h1><%=title%></h1>
     <% if(locals.user){%>
-
-    <form action="folder/create" method="post">
+    <form action="/file/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" />
+      <button type="submit">Upload</button>
+    </form>
+    <form action="folder/create/<%=folder.id%>" method="post">
       <input type="text" name="folderName" />
       <button type="submit">Create Folder</button>
     </form>
-    <a href="/logout">Logout</a>
+    <a href="/folder/<%=folder.parentId%>">Back</a>
     <%}else{%>
     <a href="/login">Login</a>
     <a href="/register">Register</a>

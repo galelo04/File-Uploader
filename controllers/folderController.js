@@ -3,7 +3,10 @@ const folderModel = require('../models/folderModel');
 const createFolder = async (req, res) => {
   try {
     const { folderName } = req.body;
-    const parentId = req.params.parentId || null;
+    let parentId = req.params.parentId;
+    if (parentId === 'undefined') {
+      parentId = await folderModel.getRootFolderId(req.user.id);
+    }
     const ownerId = req.user.id;
     const result = await folderModel.createFolder(
       folderName,
@@ -41,8 +44,9 @@ const updateFolder = async (req, res) => {
 const viewFolder = async (req, res) => {
   try {
     const { id } = req.params;
-    const folder = await folderModel.getFolderById(id);
-    const childrenFolders = await folderModel.getFoldersByParentId(id);
+    const ownerId = req.user.id;
+    const folder = await folderModel.getFolderById(ownerId, id);
+    const childrenFolders = await folderModel.getFoldersByParentId(ownerId, id);
     res.render('folder', { folder, childrenFolders });
   } catch (error) {
     return res.status(500).json({ message: error.message });

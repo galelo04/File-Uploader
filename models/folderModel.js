@@ -1,6 +1,16 @@
 const prisma = require('../config/db');
 
-const createFolder = async (name, ownerId, parentId = null) => {
+const getRootFolderId = async (ownerId) => {
+  const rootFolder = await prisma.folder.findFirst({
+    where: {
+      ownerId: ownerId,
+      name: 'root',
+    },
+  });
+  return rootFolder.id;
+};
+
+const createFolder = async (name, ownerId, parentId) => {
   return await prisma.folder.create({
     data: {
       name: name,
@@ -9,23 +19,25 @@ const createFolder = async (name, ownerId, parentId = null) => {
           id: ownerId,
         },
       },
-      parent: parentId ? { connect: { id: parentId } } : null,
+      parent: { connect: { id: parentId } },
     },
   });
 };
 
-const getFolderById = async (id) => {
+const getFolderById = async (ownerId, id) => {
   return await prisma.folder.findUnique({
     where: {
       id: id,
+      ownerId: ownerId,
     },
   });
 };
 
-const getFoldersByParentId = async (parentId) => {
+const getFoldersByParentId = async (ownerId, parentId) => {
   return await prisma.folder.findMany({
     where: {
       parentId: parentId,
+      ownerId: ownerId,
     },
   });
 };
@@ -59,6 +71,7 @@ const deleteFolder = async (id) => {
 
 module.exports = {
   createFolder,
+  getRootFolderId,
   getFolderById,
   getFolders,
   getFoldersByParentId,
