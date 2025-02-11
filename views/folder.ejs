@@ -22,7 +22,11 @@
     <a href="/folder/view/<%=folder.parentId%>">Back</a>
     <%}%>
 
-    <form action="/file/upload" method="post" enctype="multipart/form-data">
+    <form
+      action="/file/upload/<%=folder.id%>"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <input type="file" name="file" />
       <button type="submit">Upload</button>
     </form>
@@ -30,9 +34,25 @@
       <input type="text" name="folderName" />
       <button type="submit">Create Folder</button>
     </form>
-    <%childrenFolders.forEach(folder=>{%>
-    <a href="/folder/view/<%=folder.id%>"><%=folder.name%></a>
-    <%})%> <%}else{%>
+    <%if(childrenFiles.length>0){%>
+    <h2>Files</h2>
+    <ul>
+      <%childrenFiles.forEach(file=>{%>
+      <li>
+        <a href="/file/view/<%=file.id%>"><%=file.original_name%></a>
+      </li>
+      <%})%>
+    </ul>
+    <%}%> <%if(childrenFolders.length>0){%>
+    <h2>Children Folders</h2>
+    <ul>
+      <%childrenFolders.forEach(folder=>{%>
+      <li>
+        <a href="/folder/view/<%=folder.id%>"><%=folder.name%></a>
+      </li>
+      <%})%>
+    </ul>
+    <%}%> <%}else{%>
     <a href="/auth/login">Login</a>
     <a href="/auth/register">Register</a>
     <%}%>

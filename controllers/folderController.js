@@ -47,10 +47,12 @@ const viewFolder = async (req, res) => {
     const { id } = req.params;
     const ownerId = req.user.id;
     const folder = await folderModel.getFolderById(ownerId, id);
+    console.log(folder);
     res.render('folder', {
       title: folder.name,
       folder,
       childrenFolders: folder.childrenFolders,
+      childrenFiles: folder.childrenFiles,
     });
   } catch (error) {
     return res.status(500).send({ message: error.message });

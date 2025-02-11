@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+  </head>
+  <body>
+    <a href="/">Back to Home</a>
+    <a href="/folder/view/<%=file.parentId%>">Back</a>
+    <h1><%=title%></h1>
+    <a
+      href="/file/delete/<%=file.id%>"
+      onclick="return confirm('Are you sure you want to delete this file?');"
+      >Delete File</a
+    >
+    <ul>
+      <li>File Name: <%=file.original_name%></li>
+      <li>File Size: <%=file.size%> Bytes</li>
+      <li>File Type: <%=file.type%></li>
+      <li>File Created At: <%= file.createdAt%></li>
+      <li>File Updated At: <%= file.updatedAt%></li>
+      <li><a href="/file/download/<%=file.id%>">Download</a></li>
+      <li>File URL: <a href="<%=file.url%>">URL</a></li>
+    </ul>
+  </body>
+  <script></script>
+</html>

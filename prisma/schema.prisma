@@ -25,16 +25,18 @@ model User {
 }
 
 model File {
-  id        String   @id @default(cuid())
-  name      String
-  url       String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  size      Int
-  Owner     User     @relation(fields: [ownerId], references: [id])
-  ownerId   String
-  parent    Folder?  @relation("FileToFolder", fields: [parentId], references: [id])
-  parentId  String?
+  id            String   @id @default(cuid())
+  original_name String
+  file_name     String
+  url           String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  type          String
+  size          Int
+  Owner         User     @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  parent        Folder?  @relation("FileToFolder", fields: [parentId], references: [id])
+  parentId      String?
 }
 
 model Folder {

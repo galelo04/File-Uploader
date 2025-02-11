@@ -5,6 +5,14 @@ const fileController = require('../controllers/fileController');
 
 const fileRouter = Router();
 
-fileRouter.post('/upload', upload.single('file'), fileController.uploadFile);
+fileRouter.get('/view/:id', fileController.viewFile);
+fileRouter.post(
+  '/upload/:parentId',
+  upload.single('file'),
+  fileController.uploadFile
+);
+
+fileRouter.get('/download/:id', fileController.downloadFile);
+fileRouter.get('/delete/:id', fileController.deleteFile);
 
 module.exports = fileRouter;

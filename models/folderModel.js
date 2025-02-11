@@ -32,6 +32,7 @@ const getFolderById = async (ownerId, id) => {
     },
     include: {
       childrenFolders: true,
+      childrenFiles: true,
     },
   });
 };
@@ -72,6 +73,7 @@ const deleteFolder = async (ownerId, id) => {
   return await prisma.folder.delete({
     where: {
       id: id,
+      ownerId: ownerId,
     },
   });
 };
