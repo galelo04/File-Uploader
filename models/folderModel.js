@@ -51,6 +51,10 @@ const getFolders = async (ownerId) => {
 };
 
 const updateFolder = async (id, name) => {
+  const rootId = await getRootFolderId();
+  if (id === rootId) {
+    throw new Error('Cannot update root folder');
+  }
   return await prisma.folder.update({
     where: {
       id: id,
@@ -62,6 +66,10 @@ const updateFolder = async (id, name) => {
 };
 
 const deleteFolder = async (id) => {
+  const rootId = await getRootFolderId();
+  if (id === rootId) {
+    throw new Error('Cannot delete root folder');
+  }
   return await prisma.folder.delete({
     where: {
       id: id,
