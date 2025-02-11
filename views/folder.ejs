@@ -6,10 +6,19 @@
     <title><%=title%></title>
   </head>
   <body>
+    <a href="/">Back to Home</a>
     <% if(locals.user){%>
     <h1><%=title%></h1>
-    <a href="/">Back to Home</a>
     <%if(folder.parentId){%>
+    <a
+      href="/folder/delete/<%=folder.id%>"
+      onclick="return confirm('Are you sure you want to delete this folder?');"
+      >Delete Folder</a
+    >
+    <form action="/folder/update/<%=folder.id%>" method="post">
+      <input type="text" name="folderName" value="<%=folder.name%>" />
+      <button type="submit">Update Folder</button>
+    </form>
     <a href="/folder/view/<%=folder.parentId%>">Back</a>
     <%}%>
 
@@ -24,8 +33,8 @@
     <%childrenFolders.forEach(folder=>{%>
     <a href="/folder/view/<%=folder.id%>"><%=folder.name%></a>
     <%})%> <%}else{%>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
+    <a href="/auth/login">Login</a>
+    <a href="/auth/register">Register</a>
     <%}%>
   </body>
 </html>

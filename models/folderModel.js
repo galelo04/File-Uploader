@@ -30,14 +30,8 @@ const getFolderById = async (ownerId, id) => {
       id: id,
       ownerId: ownerId,
     },
-  });
-};
-
-const getFoldersByParentId = async (ownerId, parentId) => {
-  return await prisma.folder.findMany({
-    where: {
-      parentId: parentId,
-      ownerId: ownerId,
+    include: {
+      childrenFolders: true,
     },
   });
 };
@@ -65,10 +59,15 @@ const updateFolder = async (id, name) => {
   });
 };
 
-const deleteFolder = async (id) => {
+const deleteFolder = async (ownerId, id) => {
   const rootId = await getRootFolderId();
   if (id === rootId) {
     throw new Error('Cannot delete root folder');
+  }
+  const folder = await getFolderById(ownerId, id);
+
+  if (folder.childrenFolders.length > 0) {
+    throw new Error('Cannot delete folder with children');
   }
   return await prisma.folder.delete({
     where: {
@@ -82,7 +81,7 @@ module.exports = {
   getRootFolderId,
   getFolderById,
   getFolders,
-  getFoldersByParentId,
+  // getFoldersByParentId,
   updateFolder,
   deleteFolder,
 };
