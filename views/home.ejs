@@ -8,15 +8,11 @@
   <body>
     <h1><%=title%></h1>
     <% if(locals.user){%>
-
-    <form action="folder/create" method="post">
-      <input type="text" name="folderName" />
-      <button type="submit">Create Folder</button>
-    </form>
-    <a href="/logout">Logout</a>
+    <a href="/folder/view/<%=rootId%>">Root Folder</a>
+    <a href="/auth/logout">Logout</a>
     <%}else{%>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
+    <a href="/auth/login">Login</a>
+    <a href="/auth/register">Register</a>
     <%}%>
   </body>
 </html>

@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const passport = require('passport');
 
 const registerGET = (req, res) => {
   res.render('register', { title: 'Register' });

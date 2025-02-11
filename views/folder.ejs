@@ -6,18 +6,24 @@
     <title><%=title%></title>
   </head>
   <body>
-    <h1><%=title%></h1>
     <% if(locals.user){%>
+    <h1><%=title%></h1>
+    <a href="/">Back to Home</a>
+    <%if(folder.parentId){%>
+    <a href="/folder/view/<%=folder.parentId%>">Back</a>
+    <%}%>
+
     <form action="/file/upload" method="post" enctype="multipart/form-data">
       <input type="file" name="file" />
       <button type="submit">Upload</button>
     </form>
-    <form action="folder/create/<%=folder.id%>" method="post">
+    <form action="/folder/create/<%=folder.id%>" method="post">
       <input type="text" name="folderName" />
       <button type="submit">Create Folder</button>
     </form>
-    <a href="/folder/<%=folder.parentId%>">Back</a>
-    <%}else{%>
+    <%childrenFolders.forEach(folder=>{%>
+    <a href="/folder/view/<%=folder.id%>"><%=folder.name%></a>
+    <%})%> <%}else{%>
     <a href="/login">Login</a>
     <a href="/register">Register</a>
     <%}%>

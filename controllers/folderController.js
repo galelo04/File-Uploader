@@ -4,17 +4,15 @@ const createFolder = async (req, res) => {
   try {
     const { folderName } = req.body;
     let parentId = req.params.parentId;
-    if (parentId === 'undefined') {
+    let isRoot = false;
+    if (parentId === undefined) {
       parentId = await folderModel.getRootFolderId(req.user.id);
+      isRoot = true;
     }
     const ownerId = req.user.id;
-    const result = await folderModel.createFolder(
-      folderName,
-      ownerId,
-      parentId
-    );
-    console.log(result);
-    res.redirect('/');
+    await folderModel.createFolder(folderName, ownerId, parentId);
+    if (isRoot) res.redirect('/');
+    else res.redirect(`/folder/${parentId}`);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -47,7 +45,7 @@ const viewFolder = async (req, res) => {
     const ownerId = req.user.id;
     const folder = await folderModel.getFolderById(ownerId, id);
     const childrenFolders = await folderModel.getFoldersByParentId(ownerId, id);
-    res.render('folder', { folder, childrenFolders });
+    res.render('folder', { title: folder.name, folder, childrenFolders });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
