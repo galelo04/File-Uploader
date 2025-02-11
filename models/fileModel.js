@@ -6,7 +6,8 @@ const createFile = async (
   ownerId,
   parentId,
   type,
-  size
+  size,
+  url
 ) => {
   return await prisma.file.create({
     data: {
@@ -20,6 +21,7 @@ const createFile = async (
       parent: { connect: { id: parentId } },
       type: type,
       size: size,
+      url: url,
     },
   });
 };

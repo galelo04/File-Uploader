@@ -47,7 +47,7 @@ const viewFolder = async (req, res) => {
     const { id } = req.params;
     const ownerId = req.user.id;
     const folder = await folderModel.getFolderById(ownerId, id);
-    console.log(folder);
+
     res.render('folder', {
       title: folder.name,
       folder,

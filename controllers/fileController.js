@@ -1,4 +1,5 @@
 const fileModel = require('../models/fileModel');
+const cloudinary = require('../config/cloudinary');
 
 const viewFile = async (req, res) => {
   try {
@@ -19,14 +20,19 @@ const uploadFile = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: 'Please upload a file' });
     }
-    console.log(req.file);
+    console.log('file', req.file);
+    const results = await cloudinary.uploader.upload(
+      `./uploads/${req.file.filename}`
+    );
+    console.log(res);
     await fileModel.createFile(
       req.file.filename,
       req.file.originalname,
       req.user.id,
       req.params.parentId,
       req.file.mimetype,
-      req.file.size
+      req.file.size,
+      results.url
     );
     return res.redirect(`/folder/view/${req.params.parentId}`);
   } catch (error) {
